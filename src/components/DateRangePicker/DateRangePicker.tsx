@@ -1,4 +1,5 @@
-import { subDays } from "date-fns";
+import { subDays, format } from "date-fns";
+import { ru } from "date-fns/locale";
 import "./DateRangePicker.css";
 
 export type DatePreset = "7d" | "30d" | "90d" | "custom";
@@ -43,7 +44,7 @@ export function DateRangePicker({ range, onChange }: DateRangePickerProps) {
   };
 
   const formatForInput = (d: Date) =>
-    d.toISOString().slice(0, 16);
+    format(d, "yyyy-MM-dd'T'HH:mm", { locale: ru });
 
   return (
     <div className="date-range-picker">
@@ -68,6 +69,7 @@ export function DateRangePicker({ range, onChange }: DateRangePickerProps) {
             type="datetime-local"
             className="date-range-picker__input"
             value={formatForInput(range.from)}
+            step="60"
             onChange={(e) => {
               handleFromChange(e.target.value);
               onChange({ ...range, preset: "custom" });
@@ -80,6 +82,7 @@ export function DateRangePicker({ range, onChange }: DateRangePickerProps) {
             type="datetime-local"
             className="date-range-picker__input"
             value={formatForInput(range.to)}
+            step="60"
             onChange={(e) => {
               handleToChange(e.target.value);
               onChange({ ...range, preset: "custom" });
