@@ -22,7 +22,9 @@ export async function fetchSummary(
   params: FetchSummaryParams,
   options: FetchSummaryOptions
 ): Promise<AnalyticsSummaryResponse> {
-  const url = new URL(`${options.baseUrl}/internal/analytics/summary`);
+  const path = `${options.baseUrl}/internal/analytics/summary`;
+  const base = typeof window !== "undefined" ? window.location.origin : "http://localhost";
+  const url = new URL(path, base);
   url.searchParams.set("fromUtc", params.fromUtc);
   url.searchParams.set("toUtc", params.toUtc);
   if (params.cohortCutoffUtc) {
