@@ -1,6 +1,10 @@
-import { subDays, format } from "date-fns";
+import { subDays } from "date-fns";
 import { ru } from "date-fns/locale";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./DateRangePicker.css";
+
+registerLocale("ru", ru);
 
 export type DatePreset = "7d" | "30d" | "90d" | "custom";
 
@@ -14,6 +18,8 @@ interface DateRangePickerProps {
   range: DateRangeState;
   onChange: (range: DateRangeState) => void;
 }
+
+const DATE_FORMAT = "dd.MM.yyyy HH:mm";
 
 export function DateRangePicker({ range, onChange }: DateRangePickerProps) {
   const applyPreset = (preset: DatePreset) => {
@@ -29,22 +35,17 @@ export function DateRangePicker({ range, onChange }: DateRangePickerProps) {
     onChange({ from, to, preset });
   };
 
-  const handleFromChange = (v: string) => {
-    const from = new Date(v);
-    if (!isNaN(from.getTime())) {
-      onChange({ ...range, from });
+  const handleFromChange = (date: Date | null) => {
+    if (date) {
+      onChange({ ...range, from: date, preset: "custom" });
     }
   };
 
-  const handleToChange = (v: string) => {
-    const to = new Date(v);
-    if (!isNaN(to.getTime())) {
-      onChange({ ...range, to });
+  const handleToChange = (date: Date | null) => {
+    if (date) {
+      onChange({ ...range, to: date, preset: "custom" });
     }
   };
-
-  const formatForInput = (d: Date) =>
-    format(d, "yyyy-MM-dd'T'HH:mm", { locale: ru });
 
   return (
     <div className="date-range-picker">
@@ -65,28 +66,32 @@ export function DateRangePicker({ range, onChange }: DateRangePickerProps) {
       <div className="date-range-picker__inputs">
         <label className="date-range-picker__label">
           <span className="date-range-picker__label-text">От</span>
-          <input
-            type="datetime-local"
+          <DatePicker
+            selected={range.from}
+            onChange={handleFromChange}
+            locale="ru"
+            dateFormat={DATE_FORMAT}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={60}
+            timeCaption="Время"
+            calendarStartDay={1}
             className="date-range-picker__input"
-            value={formatForInput(range.from)}
-            step="60"
-            onChange={(e) => {
-              handleFromChange(e.target.value);
-              onChange({ ...range, preset: "custom" });
-            }}
           />
         </label>
         <label className="date-range-picker__label">
           <span className="date-range-picker__label-text">До</span>
-          <input
-            type="datetime-local"
+          <DatePicker
+            selected={range.to}
+            onChange={handleToChange}
+            locale="ru"
+            dateFormat={DATE_FORMAT}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={60}
+            timeCaption="Время"
+            calendarStartDay={1}
             className="date-range-picker__input"
-            value={formatForInput(range.to)}
-            step="60"
-            onChange={(e) => {
-              handleToChange(e.target.value);
-              onChange({ ...range, preset: "custom" });
-            }}
           />
         </label>
       </div>
