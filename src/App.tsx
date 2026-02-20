@@ -22,7 +22,7 @@ function getDefaultRange(): DateRangeState {
 }
 
 export default function App() {
-  const { env, setEnv, data, loading, error, loadSummary } = useAnalytics();
+  const { data, loading, error, loadSummary } = useAnalytics();
   const colorScheme = useColorScheme();
   const [range, setRange] = useState<DateRangeState>(getDefaultRange);
   const [activeTab, setActiveTab] = useState<TabId>("payments");
@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <div className="analytics">
-      <Header env={env} onEnvChange={setEnv} />
+      <Header />
       <main className="analytics__main">
         <section className="analytics__controls">
           <DateRangePicker range={range} onChange={setRange} />

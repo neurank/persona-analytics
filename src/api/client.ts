@@ -1,31 +1,11 @@
 import type { AnalyticsSummaryResponse } from "./types";
 
-const STORAGE_KEY = "persona-analytics-env";
-
-export type ApiEnv = "dev" | "prod";
-
-export function getApiBaseUrl(env: ApiEnv): string {
-  if (env === "dev") {
-    return import.meta.env.VITE_DEV_API_URL ?? "http://localhost:5000";
-  }
-  return import.meta.env.VITE_PROD_API_URL ?? "/api";
-}
-
-export function getStoredEnv(): ApiEnv {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored === "dev" || stored === "prod" ? stored : "prod";
-  } catch {
-    return "prod";
-  }
-}
-
-export function setStoredEnv(env: ApiEnv): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, env);
-  } catch {
-    /* ignore */
-  }
+/**
+ * API base URL. Всегда относительный /api — backend определяется тем,
+ * на какой порт идёт туннель (8765 dev, 8766 prod).
+ */
+export function getApiBaseUrl(): string {
+  return "/api";
 }
 
 export interface FetchSummaryParams {
@@ -36,7 +16,6 @@ export interface FetchSummaryParams {
 
 export interface FetchSummaryOptions {
   baseUrl: string;
-  adminKey?: string;
 }
 
 export async function fetchSummary(
@@ -50,12 +29,7 @@ export async function fetchSummary(
     url.searchParams.set("cohortCutoffUtc", params.cohortCutoffUtc);
   }
 
-  const headers: Record<string, string> = {};
-  if (options.adminKey) {
-    headers["X-Admin-Key"] = options.adminKey;
-  }
-
-  const res = await fetch(url.toString(), { headers });
+  const res = await fetch(url.toString());
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`API error ${res.status}: ${text}`);

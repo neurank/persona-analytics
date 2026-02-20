@@ -1,27 +1,37 @@
 # Persona Analytics
 
-Веб-дашборд для аналитики бота [Persona](https://github.com/.../persona).
+Веб-дашборд для аналитики бота [Persona](https://github.com/.../persona). Доступ только через SSH-туннель.
 
 ## Возможности
 
 - Табы: Payments, Conversion, Returns, Traffic Sources, Repeat Purchases
-- Переключатель Dev/Prod
 - Диапазон дат с пресетами (7/30/90 дней)
 - Графики ECharts с легендой (клик для скрытия серий)
 - Тёмная/светлая тема по системным настройкам
 
-## Разработка
+## Доступ через ssh -L
+
+Dev (Persona на 5213):
 
 ```bash
-npm install
-npm run dev
+ssh -L 28080:127.0.0.1:8765 root@VPS_HOST
 ```
 
-Переменные окружения — см. `.env.example`. Скопируйте в `.env` и заполните.
+Открыть в браузере: http://localhost:28080
 
-Для dev нужен доступ к Persona API. Если Persona на другом порту — укажите `VITE_DEV_API_URL`. Для авторизации задайте `VITE_DEV_ADMIN_KEY` (значение `X-Admin-Key` из Persona).
+Prod (Persona на 5214):
 
-**CORS:** при вызове Persona с другого origin (например `localhost:5173`) включите CORS в Persona для вашего домена.
+```bash
+ssh -L 28081:127.0.0.1:8766 root@VPS_HOST
+```
+
+Открыть в браузере: http://localhost:28081
+
+Одновременно:
+
+```bash
+ssh -L 28080:127.0.0.1:8765 -L 28081:127.0.0.1:8766 root@VPS_HOST
+```
 
 ## Сборка
 
@@ -33,21 +43,8 @@ npm run build
 
 ## Деплой
 
-Деплой через GitHub Actions (push в `main`). Настройте секреты репозитория:
+Деплой через GitHub Actions (push в `main`). Секреты:
 
-- `VPS_HOST` — хост VPS
-- `SSH_USER` — пользователь SSH
-- `SSH_PRIVATE_KEY` — приватный ключ
-- `DEPLOY_PATH` — путь на VPS (например `/var/www/persona-analytics`)
+- `VPS_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `DEPLOY_PATH`
 
-Пример конфигурации nginx — в `docs/nginx-example.conf`.
-
-## Подключение по SSH после деплоя
-
-После деплоя можно подключиться к VPS:
-
-```bash
-ssh USER@HOST
-cd /var/www/persona-analytics
-ls -la
-```
+Пример nginx — `docs/nginx-example.conf`.
