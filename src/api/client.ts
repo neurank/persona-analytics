@@ -27,6 +27,7 @@ export async function fetchSummary(
   const url = new URL(path, base);
   url.searchParams.set("fromUtc", params.fromUtc);
   url.searchParams.set("toUtc", params.toUtc);
+  url.searchParams.set("includeCharts", "true");
   if (params.cohortCutoffUtc) {
     url.searchParams.set("cohortCutoffUtc", params.cohortCutoffUtc);
   }

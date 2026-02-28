@@ -9,6 +9,7 @@ import { ReturnsChart } from "./charts/ReturnsChart";
 import { TrafficChart } from "./charts/TrafficChart";
 import { TrafficTable } from "./components/TrafficTable/TrafficTable";
 import { RepeatPanel } from "./components/RepeatPanel/RepeatPanel";
+import { EventsPanel } from "./components/EventsPanel/EventsPanel";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useColorScheme } from "./hooks/useColorScheme";
 import "./App.css";
@@ -99,6 +100,16 @@ export default function App() {
                 <div className="analytics__panel">
                   <h2 className="analytics__panel-title">Repeat Purchases</h2>
                   <RepeatPanel data={data.repeatPurchases} />
+                </div>
+              )}
+              {activeTab === "events" && (
+                <div className="analytics__panel">
+                  <h2 className="analytics__panel-title">Events</h2>
+                  {data.usageEvents ? (
+                    <EventsPanel data={data.usageEvents} theme={colorScheme} />
+                  ) : (
+                    <p className="analytics__empty">Нет данных</p>
+                  )}
                 </div>
               )}
             </>

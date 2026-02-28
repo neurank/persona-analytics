@@ -4,6 +4,62 @@ export interface AnalyticsSummaryResponse {
   repeatPurchases: AnalyticsRepeatPurchasesSummary;
   returns: AnalyticsReturnsSummary;
   trafficSources: AnalyticsTrafficSourceSummary[];
+  usageEvents?: AnalyticsUsageEventsSummary | null;
+}
+
+export interface AnalyticsUsageEventsSummary {
+  eventTypes: AnalyticsEventTypeCount[];
+  dailyLast30Days: AnalyticsDailyCount[];
+  dailyByTypeLast14Days: AnalyticsDailyEventTypeCount[];
+  hourlyLast7DaysUtc: AnalyticsHourlyCount[];
+  trafficSources: AnalyticsUsageTrafficSourceCount[];
+  funnel: AnalyticsEventFunnelSummary;
+}
+
+export interface AnalyticsEventTypeCount {
+  eventType: string;
+  count: number;
+}
+
+export interface AnalyticsDailyCount {
+  dayUtc: string;
+  count: number;
+}
+
+export interface AnalyticsDailyEventTypeCount {
+  dayUtc: string;
+  eventType: string;
+  count: number;
+}
+
+export interface AnalyticsHourlyCount {
+  hourUtc: number;
+  count: number;
+}
+
+export interface AnalyticsUsageTrafficSourceCount {
+  source: string;
+  count: number;
+}
+
+export interface AnalyticsEventFunnelSummary {
+  journeys: AnalyticsJourneyFunnelSummary;
+  raw: AnalyticsRawEventFunnelSummary;
+}
+
+export interface AnalyticsJourneyFunnelSummary {
+  startedJourneys: number;
+  answeredJourneys: number;
+  paidJourneys: number;
+  answeredFromStartedRate: number;
+  paidFromStartedRate: number;
+  paidFromAnsweredRate: number;
+}
+
+export interface AnalyticsRawEventFunnelSummary {
+  sessionStartedEvents: number;
+  answerSubmittedEvents: number;
+  paymentSucceededEvents: number;
 }
 
 export interface AnalyticsPaymentsSummary {

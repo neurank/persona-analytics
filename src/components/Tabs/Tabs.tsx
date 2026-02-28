@@ -1,6 +1,6 @@
 import "./Tabs.css";
 
-export type TabId = "payments" | "conversion" | "returns" | "traffic" | "repeat";
+export type TabId = "payments" | "conversion" | "returns" | "traffic" | "repeat" | "events";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "payments", label: "Payments" },
@@ -8,6 +8,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "returns", label: "Returns" },
   { id: "traffic", label: "Traffic Sources" },
   { id: "repeat", label: "Repeat Purchases" },
+  { id: "events", label: "Events" },
 ];
 
 interface TabsProps {
