@@ -14,7 +14,7 @@
 Dev (Persona на 5213):
 
 ```bash
-ssh -L 28080:127.0.0.1:8765 root@VPS_HOST
+ssh -L 28080:127.0.0.1:8765 USER@VPS_HOST
 ```
 
 Открыть в браузере: http://localhost:28080
@@ -22,7 +22,7 @@ ssh -L 28080:127.0.0.1:8765 root@VPS_HOST
 Prod (Persona на 5214):
 
 ```bash
-ssh -L 28081:127.0.0.1:8766 root@VPS_HOST
+ssh -L 28081:127.0.0.1:8766 USER@VPS_HOST
 ```
 
 Открыть в браузере: http://localhost:28081
@@ -30,7 +30,7 @@ ssh -L 28081:127.0.0.1:8766 root@VPS_HOST
 Одновременно:
 
 ```bash
-ssh -L 28080:127.0.0.1:8765 -L 28081:127.0.0.1:8766 root@VPS_HOST
+ssh -L 28080:127.0.0.1:8765 -L 28081:127.0.0.1:8766 USER@VPS_HOST
 ```
 
 ## Сборка
